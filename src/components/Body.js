@@ -3,7 +3,7 @@ import resList from "../utils/mockData";
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
-
+import useOnlineStatus from "../utils/useOnlineStatus";
 const Body=()=>{
   const[listOfRestaurants,setListOfRestaurants]=useState([]);
   const[searchText,setSearchText]=useState("")
@@ -19,6 +19,8 @@ const Body=()=>{
     setFilteredRes(json.data.cards[4].card.card.gridElements.infoWithStyle.restaurants)
     
   }
+  const onlineStatus=useOnlineStatus()
+  if(onlineStatus===false) return <h1>looks like your network is disconnected!</h1>
   return(listOfRestaurants.length===0)?<Shimmer/>:(
     <div className="body">
       <div className="filter">
@@ -35,7 +37,7 @@ const Body=()=>{
         </div>
       
           <button className="filter-btn" onClick={()=>{
-            const filteredList=listOfRestaurants.filter((res)=>res.info.avgRating>4.5);
+            const filteredList=listOfRestaurants.filter((res)=>res.info.avgRating>4.4);
             setFilteredRes(filteredList)
           }}>Top Rated Restaurants</button>
         
