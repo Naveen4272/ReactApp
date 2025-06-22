@@ -23,26 +23,27 @@ const Body=()=>{
   if(onlineStatus===false) return <h1>looks like your network is disconnected!</h1>
   return(listOfRestaurants.length===0)?<Shimmer/>:(
     <div className="body">
-      <div className="filter">
-        <div className="search">
-          <input type="text" value={searchText} onChange={(e)=>{
+      <div className="flex">
+        <div className="search m-4 p-4 ">
+          <input className=" border border-solid border-black" type="text" value={searchText} onChange={(e)=>{
             setSearchText(e.target.value)
           }}>
           </input>
-          <button className="search-btn" onClick={()=>{
+          <button className=" m-4 px-4 py-2 bg-pink-100" onClick={()=>{
             const FilteredRestaurants=listOfRestaurants.filter((res)=>res.info.name.toLowerCase().includes(searchText))
             setFilteredRes(FilteredRestaurants)
 
           }}>search</button>
-        </div>
-      
-          <button className="filter-btn" onClick={()=>{
+        </div> 
+        <div className="search m-4 p-4 flex items-center" >
+          <button className="px-4 py-2 bg-gray-100" onClick={()=>{
             const filteredList=listOfRestaurants.filter((res)=>res.info.avgRating>4.4);
             setFilteredRes(filteredList)
           }}>Top Rated Restaurants</button>
+          </div>
         
       </div>
-      <div className="res-container">
+      <div className="flex flex-wrap">
        {
         filteredRes.map((restaurant)=><Link key={restaurant.info.id} to={"/restaurants/"+restaurant.info.id}><RestaurantCard  resData={restaurant}/></Link>)
        }
